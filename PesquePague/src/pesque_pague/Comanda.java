@@ -1,7 +1,7 @@
 package pesque_pague;
 
-public class Servicos {
-    
+public class Comanda {
+
     
     
 }
