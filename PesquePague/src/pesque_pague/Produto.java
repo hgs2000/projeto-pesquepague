@@ -17,19 +17,19 @@ class Peixe extends Produto {
     private int codigo;
     private String nome;
     private float preco;
-    private float taxaLimpeza;
+    private float taxa = 3.00f;
 
     public float retornaPreco(float peso) {
-        float valor = codigo;
-        return valor;
+        return (preco * peso);
+        
     }
 
     public int retornaCodigo() {
         return codigo;
     }
     
-    puclic float taxaLimpeza(){
-        return taxa;    
+    public float taxaLimpeza(float peso){
+        return taxa * peso;
     }
 
 }
