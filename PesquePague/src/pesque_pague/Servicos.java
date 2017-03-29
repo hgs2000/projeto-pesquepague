@@ -1,11 +1,11 @@
 package pesque_pague;
 
-int tipoServico;
-float taxaServico = 0.00f;
-
 public class Servicos {
+  
+  int tipoServico;
+  float taxaServico = 0.00f;
+  
   public float retornaServico() {
-        float taxaServico = ;
-        return valor;
+    return taxaServico;
     
 }
