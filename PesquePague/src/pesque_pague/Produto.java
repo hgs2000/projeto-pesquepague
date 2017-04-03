@@ -10,6 +10,10 @@ public class Produto {
         float valor = codigo;
         return valor;
     }
+
+    public int getCodigo() {
+        return codigo;
+    }
 }
 
 class Peixe extends Produto {
@@ -21,14 +25,14 @@ class Peixe extends Produto {
 
     public float retornaPreco(float peso) {
         return (preco * peso);
-        
+
     }
 
     public int retornaCodigo() {
         return codigo;
     }
-    
-    public float taxaLimpeza(float peso){
+
+    public float taxaLimpeza(float peso) {
         return taxa * peso;
     }
 
