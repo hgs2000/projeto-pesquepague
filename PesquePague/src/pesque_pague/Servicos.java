@@ -7,6 +7,5 @@ public class Servicos {
 
     public float retornaServico() {
         return taxaServico;
-        
     }
 }

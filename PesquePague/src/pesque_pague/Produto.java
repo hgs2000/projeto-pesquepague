@@ -25,7 +25,6 @@ class Peixe extends Produto {
 
     public float retornaPreco(float peso) {
         return (preco * peso);
-
     }
 
     public int retornaCodigo() {
