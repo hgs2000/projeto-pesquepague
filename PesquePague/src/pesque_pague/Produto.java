@@ -7,7 +7,7 @@ public class Produto {
     private float preco;
 
     public float retornaPreco() {
-        float valor = codigo;
+        float valor = retornaPreco();
         return valor;
     }
 
@@ -30,9 +30,4 @@ class Peixe extends Produto {
     public int retornaCodigo() {
         return codigo;
     }
-
-    public float taxaLimpeza(float peso) {
-        return taxa * peso;
-    }
-
 }
