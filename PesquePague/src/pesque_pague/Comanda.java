@@ -1,7 +1,5 @@
 package pesque_pague;
 
-import java.util.ArrayList;
-
 public class Comanda {
 
     private boolean comandaAberta;
@@ -58,6 +56,7 @@ public class Comanda {
 
     /**
      * Método utilizado para retornar o nome do usuário dono da Comanda.
+     *
      * @return Nome do usuário da Comanda
      */
     public String getNomeMaster() {
