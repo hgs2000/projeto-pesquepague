@@ -1,7 +1,6 @@
 package pesque_pague;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -9,7 +8,7 @@ import javax.swing.JOptionPane;
 public class Pesque_Pague {
 
     private static ArrayList<Comanda> comanda = new ArrayList<>();
-    private static JFrame frame = new JFrame() {
+    final static JFrame frame = new JFrame() {
         {
             setVisible(true);
             setSize(500, 500);
@@ -17,14 +16,12 @@ public class Pesque_Pague {
         }
     };
 
-    static Scanner tec = new Scanner(System.in);
-
     private static String pedeString(String string) {
         String aux = "";
         do {
             aux = JOptionPane.showInputDialog(frame, string, "PedeString", JOptionPane.PLAIN_MESSAGE);
             if (aux == null) {
-                return null;
+                return pedeString(string);
             }
         } while (aux.isEmpty());
         return aux;
@@ -54,14 +51,20 @@ public class Pesque_Pague {
                             break;
                         } else {
                             System.out.println("Está aberta ÔuÔ");
+                            comanda.get(pegaCodigoComanda(aAlterar) - 1).controleComanda();
                             break;
                         }
                     case 2:
                         String[] listaRemocao = retornaListaDePessoas();
                         String aRemover = (String) JOptionPane.showInputDialog(frame, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaRemocao, listaRemocao[0]);
                         int valorARemover = pegaCodigoComanda(aRemover);
-                        System.out.println(valorARemover);
-                        comanda.get(valorARemover - 1).fechaComanda();
+                        if (listaRemocao[valorARemover - 1].contains(" (fechada)")) {
+                            JOptionPane.showMessageDialog(frame, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            System.out.println("Aberto");
+                            comanda.get(valorARemover - 1).fechaComanda();
+                        }
+
                         break;
                     default:
                         System.out.println("O programa está fechando");
@@ -84,6 +87,12 @@ public class Pesque_Pague {
         return lista;
     }
 
+    /**
+     * Método utilizado para pegar o número da posição da comanda.
+     *
+     * @param aRemover
+     * @return código da comanda
+     */
     private static int pegaCodigoComanda(String aRemover) {
         String nums = "";
         for (int i = 0; i < aRemover.length(); i++) {
@@ -97,6 +106,3 @@ public class Pesque_Pague {
     }
 
 }
-
-// String[] opc = {"Adicionar Comanda"};
-// menu = JOptionPane.showOptionDialog(null, "Oi", "Blz", JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opc, opc[0]);

@@ -1,9 +1,14 @@
 package pesque_pague;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import static pesque_pague.Pesque_Pague.frame;
+
 public class Comanda {
 
     private boolean comandaAberta;
     private final String master_comanda;
+    private ArrayList<Produto> produtos_comanda = new ArrayList<>();
 
     /**
      * Muda o valor de comandaAberta para aberta (true).
@@ -21,27 +26,33 @@ public class Comanda {
 
     /**
      *
-     * @param produto
-     * @param codigoSetor
      */
-    public void adicionaProduto(Produto produto, int codigoSetor) {
+    private void adicionaProduto() {
+        String[] opcs = {
+            "Adicionar Petisco", "Adicionar Bebida"
+        };
+        System.out.println(JOptionPane.showOptionDialog(frame, "Escolha o que adicionar:", "Adiciona Produto", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]));
+    }
+
+    /**
+     *
+     */
+    private void adicionaPeixe() {
+
+    }
+
+    private void cancelaProduto() {
 
     }
 
     /**
      *
-     * @param peixe
      */
-    public void adicionaProduto(Peixe peixe) {
+    private void adicionaServico() {
 
     }
 
-    /**
-     *
-     * @param tipoServico
-     * @param codigoSetor
-     */
-    public void adicionaServico(int tipoServico, int codigoSetor) {
+    private void removeServico() {
 
     }
 
@@ -63,9 +74,33 @@ public class Comanda {
         return master_comanda;
     }
 
+    public void controleComanda() {
+        String[] opcs = {"Adiciona Produto", "Adiciona Peixe", "Cancela Produto Registrado", "Adiciona Servico", "Remove Servico"};
+        int opc = JOptionPane.showOptionDialog(frame, "Escolha a opção a ser realizada", "Comanda de " + master_comanda, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
+        switch (opc) {
+            case 0:
+                adicionaProduto();
+                break;
+            case 1:
+                adicionaPeixe();
+                break;
+            case 2:
+                cancelaProduto();
+                break;
+            case 3:
+                adicionaServico();
+                break;
+            case 4:
+                removeServico();
+                break;
+            default:
+                System.out.println(opc);
+        }
+
+    }
+
     public Comanda(String nome_master) {
         novaComanda();
         this.master_comanda = nome_master;
     }
-
 }
