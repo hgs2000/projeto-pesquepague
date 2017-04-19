@@ -2,7 +2,7 @@ package pesque_pague;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import static pesque_pague.Pesque_Pague.frame;
+import static pesque_pague.Pesque_Pague.FRAME;
 
 public class Comanda {
 
@@ -28,10 +28,8 @@ public class Comanda {
      *
      */
     private void adicionaProduto() {
-        String[] opcs = {
-            "Adicionar Petisco", "Adicionar Bebida"
-        };
-        System.out.println(JOptionPane.showOptionDialog(frame, "Escolha o que adicionar:", "Adiciona Produto", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]));
+        String[] opcs = {"Adicionar Petisco", "Adicionar Bebida"};
+        System.out.println(JOptionPane.showOptionDialog(FRAME, "Escolha o que adicionar:", "Adiciona Produto", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]));
     }
 
     /**
@@ -76,7 +74,7 @@ public class Comanda {
 
     public void controleComanda() {
         String[] opcs = {"Adiciona Produto", "Adiciona Peixe", "Cancela Produto Registrado", "Adiciona Servico", "Remove Servico"};
-        int opc = JOptionPane.showOptionDialog(frame, "Escolha a opção a ser realizada", "Comanda de " + master_comanda, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
+        int opc = JOptionPane.showOptionDialog(FRAME, "Escolha a opção a ser realizada", "Comanda de " + master_comanda, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
         switch (opc) {
             case 0:
                 adicionaProduto();

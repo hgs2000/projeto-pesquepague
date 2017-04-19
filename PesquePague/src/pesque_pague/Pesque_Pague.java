@@ -1,7 +1,16 @@
 package pesque_pague;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,21 +18,24 @@ import javax.swing.JOptionPane;
 
 public class Pesque_Pague {
 
-    private static ArrayList<Comanda> comanda = new ArrayList<>();
-    final static JFrame frame = new JFrame() {
+    private static final ArrayList<Comanda> comanda = new ArrayList<>();
+    final static JFrame FRAME = new JFrame() {
         {
             setTitle("Pesque Pague Peixinho Bom");
             setVisible(true);
             setSize(500, 500);
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             getContentPane().setBackground(Color.decode("0XACE5EE"));
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+            setIconImage(new ImageIcon(getClass().getResource("peixes.png"), "Peixes").getImage());
         }
     };
 
     private static String pedeString(String string) {
         String aux = "";
         do {
-            aux = JOptionPane.showInputDialog(frame, string, null, JOptionPane.PLAIN_MESSAGE);
+            aux = JOptionPane.showInputDialog(FRAME, string, null, JOptionPane.PLAIN_MESSAGE);
             if (aux == null) {
                 return pedeString(string);
             }
@@ -42,17 +54,17 @@ public class Pesque_Pague {
                 cont++;
             } else {
                 String[] opc = {"Adicionar Comanda", "Adicionar Produtos", "Fecha Comanda"};
-                menu = JOptionPane.showOptionDialog(frame, new JLabel("Menu", JLabel.CENTER), null, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opc, opc[0]);
+                menu = JOptionPane.showOptionDialog(FRAME, new JLabel("Menu", JLabel.CENTER), null, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opc, opc[0]);
                 switch (menu) {
                     case 0:
                         comanda.add(new Comanda(pedeString("Informe o nome que nome do responsável da comanda: ")));
                         break;
                     case 1:
                         String[] listaAdicionaProduto = retornaListaDePessoas();
-                        String aAlterar = (String) JOptionPane.showInputDialog(frame, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remover Comanda", JOptionPane.PLAIN_MESSAGE, null, listaAdicionaProduto, listaAdicionaProduto[0]);
+                        String aAlterar = (String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remover Comanda", JOptionPane.PLAIN_MESSAGE, null, listaAdicionaProduto, listaAdicionaProduto[0]);
                         if (aAlterar.contains(" (fechada)")) {
                             System.out.println("Está fechada ;-;");
-                            JOptionPane.showMessageDialog(frame, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(FRAME, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
                             break;
                         } else {
                             System.out.println("Está aberta ÔuÔ");
@@ -61,9 +73,9 @@ public class Pesque_Pague {
                         }
                     case 2:
                         String[] listaRemocao = retornaListaDePessoas();
-                        int valorARemover = pegaCodigoComanda((String) JOptionPane.showInputDialog(frame, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaRemocao, listaRemocao[0]));
+                        int valorARemover = pegaCodigoComanda((String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaRemocao, listaRemocao[0]));
                         if (listaRemocao[valorARemover - 1].contains(" (fechada)")) {
-                            JOptionPane.showMessageDialog(frame, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(FRAME, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
                         } else {
                             System.out.println("Aberto");
                             comanda.get(valorARemover - 1).fechaComanda();
