@@ -1,6 +1,5 @@
 package pesque_pague;
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import static pesque_pague.Pesque_Pague.FRAME;
 
@@ -8,7 +7,6 @@ public class Comanda {
 
     private boolean comandaAberta;
     private final String master_comanda;
-    private ArrayList<Produto> produtos_comanda = new ArrayList<>();
 
     /**
      * Muda o valor de comandaAberta para aberta (true).
@@ -25,32 +23,53 @@ public class Comanda {
     }
 
     /**
-     *
+     * Método para adicionar produtos à comanda.
      */
     private void adicionaProduto() {
         String[] opcs = {"Adicionar Petisco", "Adicionar Bebida"};
-        System.out.println(JOptionPane.showOptionDialog(FRAME, "Escolha o que adicionar:", "Adiciona Produto", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]));
+        int opc = JOptionPane.showOptionDialog(FRAME, "Escolha o que adicionar:", "Adicionar Produto", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
+        String codSetor = JOptionPane.showInputDialog("Favor escrever seu setor (código identificador)");
+
+        switch (opc) {
+            case 0:
+
+//Hgs continua daqui ;)
+                opcs = new String[CriadorDeJSON.valor_json.size()];
+                break;
+            case 1:
+
+                break;
+            default:
+
+                break;
+        }
     }
 
     /**
-     *
+     * Método para adicionar um produto Peixe à comanda.
      */
     private void adicionaPeixe() {
 
     }
 
+    /**
+     * Método para "remover" o produto da comanda.
+     */
     private void cancelaProduto() {
 
     }
 
     /**
-     *
+     * Método para adicionar um serviço à comanda.
      */
     private void adicionaServico() {
 
     }
 
-    private void removeServico() {
+    /**
+     * Método para "remover" um serviço da comanda.
+     */
+    private void cancelaServico() {
 
     }
 
@@ -59,7 +78,7 @@ public class Comanda {
      *
      * @return true quando aberta e false quando fechada.
      */
-    public boolean getEstadoComanda() {
+    private boolean getEstadoComanda() {
         return comandaAberta;
     }
 
@@ -68,10 +87,13 @@ public class Comanda {
      *
      * @return Nome do usuário da Comanda
      */
-    public String getNomeMaster() {
+    private String getNomeMaster() {
         return master_comanda;
     }
 
+    /**
+     *
+     */
     public void controleComanda() {
         String[] opcs = {"Adiciona Produto", "Adiciona Peixe", "Cancela Produto Registrado", "Adiciona Servico", "Remove Servico"};
         int opc = JOptionPane.showOptionDialog(FRAME, "Escolha a opção a ser realizada", "Comanda de " + master_comanda, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
@@ -89,7 +111,7 @@ public class Comanda {
                 adicionaServico();
                 break;
             case 4:
-                removeServico();
+                cancelaServico();
                 break;
             default:
                 System.out.println(opc);

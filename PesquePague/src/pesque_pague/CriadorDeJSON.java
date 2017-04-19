@@ -4,14 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CriadorDeJSON {
-    //http://stackoverflow.com/questions/11851603/how-to-convert-hashmap-to-json-file
+
+    static Map<String, Map<String, Float>> valor_json = new HashMap<>();
+
+    public static Map<String, Float> getOpcoes(String tipo) throws Exception {
+        if (valor_json.containsKey(tipo)) {
+            return valor_json.get(tipo);
+        } else {
+            throw new Exception("Erro. Opção indisponível.");
+        }
+    }
 
     /**
      * Criado por Isabelle Kuehlewein
      *
      */
     public CriadorDeJSON() {
-        Map<String, Map<String, Float>> valor_json = new HashMap<>();
+
         valor_json.put("comidas", new HashMap<String, Float>() {
             {
                 put("Porção de Peixe Frito (500g)", 20.00f);
