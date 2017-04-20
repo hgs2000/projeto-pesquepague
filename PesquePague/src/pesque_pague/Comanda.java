@@ -24,32 +24,29 @@ public class Comanda {
 
     /**
      * Método para adicionar produtos à comanda.
+     *
+     * @param opcao : 1 para adicionar produto ou 2 para adicionar um peixe
      */
-    private void adicionaProduto() {
-        String[] opcs = {"Adicionar Petisco", "Adicionar Bebida"};
-        int opc = JOptionPane.showOptionDialog(FRAME, "Escolha o que adicionar:", "Adicionar Produto", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
-        String codSetor = JOptionPane.showInputDialog("Favor escrever seu setor (código identificador)");
+    private void adicionaProduto(int opcao) {
+        if (opcao == 1) {
+            String[] opcs = {"Adicionar Petisco", "Adicionar Bebida"};
+            int opc = JOptionPane.showOptionDialog(FRAME, "Escolha o que adicionar:", "Adicionar Produto", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
+            //String codSetor = JOptionPane.showInputDialog("Favor escrever seu setor (código identificador)");
+            switch (opc) {
+                case 0:
+                    
+                    //Hgs continua daqui ;)
+                    break;
+                case 1:
 
-        switch (opc) {
-            case 0:
+                    break;
+                default:
 
-//Hgs continua daqui ;)
-                opcs = new String[CriadorDeJSON.valor_json.size()];
-                break;
-            case 1:
+                    break;
+            }
+        } else {
 
-                break;
-            default:
-
-                break;
         }
-    }
-
-    /**
-     * Método para adicionar um produto Peixe à comanda.
-     */
-    private void adicionaPeixe() {
-
     }
 
     /**
@@ -78,7 +75,7 @@ public class Comanda {
      *
      * @return true quando aberta e false quando fechada.
      */
-    private boolean getEstadoComanda() {
+    public boolean getEstadoComanda() {
         return comandaAberta;
     }
 
@@ -87,7 +84,7 @@ public class Comanda {
      *
      * @return Nome do usuário da Comanda
      */
-    private String getNomeMaster() {
+    public String getNomeMaster() {
         return master_comanda;
     }
 
@@ -99,10 +96,10 @@ public class Comanda {
         int opc = JOptionPane.showOptionDialog(FRAME, "Escolha a opção a ser realizada", "Comanda de " + master_comanda, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
         switch (opc) {
             case 0:
-                adicionaProduto();
+                adicionaProduto(1);
                 break;
             case 1:
-                adicionaPeixe();
+                adicionaProduto(2);
                 break;
             case 2:
                 cancelaProduto();

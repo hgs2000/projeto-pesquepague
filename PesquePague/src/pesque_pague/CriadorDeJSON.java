@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class CriadorDeJSON {
 
-    static Map<String, Map<String, Float>> valor_json = new HashMap<>();
+    private static Map<String, Map<String, Float>> valor_json = new HashMap<>();
 
     public static Map<String, Float> getOpcoes(String tipo) throws Exception {
         if (valor_json.containsKey(tipo)) {
