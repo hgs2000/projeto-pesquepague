@@ -11,7 +11,9 @@ import javax.swing.JOptionPane;
 
 public class Pesque_Pague {
 
-    private static final ArrayList<Comanda> comanda = new ArrayList<>();
+    public static final CriadorDeJSON CDJSON = new CriadorDeJSON();
+
+    private static final ArrayList<Comanda> COMANDA = new ArrayList<>();
     final static JFrame FRAME = new JFrame() {
         {
             setTitle("Pesque Pague Peixinho Bom");
@@ -37,20 +39,19 @@ public class Pesque_Pague {
     }
 
     public static void main(String[] args) {
-        //new CriadorDeJSON();
         boolean continuar = true;
         int cont = 0;
         int menu;
         do {
             if (cont == 0) {
-                comanda.add(new Comanda(pedeString("Informe o nome que nome do responsável da comanda: ")));
+                COMANDA.add(new Comanda(pedeString("Informe o nome que nome do responsável da comanda: ")));
                 cont++;
             } else {
                 String[] opc = {"Adicionar Comanda", "Adicionar Produtos", "Fecha Comanda"};
                 menu = JOptionPane.showOptionDialog(FRAME, new JLabel("Menu", JLabel.CENTER), null, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opc, opc[0]);
                 switch (menu) {
                     case 0:
-                        comanda.add(new Comanda(pedeString("Informe o nome que nome do responsável da comanda: ")));
+                        COMANDA.add(new Comanda(pedeString("Informe o nome que nome do responsável da comanda: ")));
                         break;
                     case 1:
                         String[] listaAdicionaProduto = retornaListaDePessoas();
@@ -61,7 +62,7 @@ public class Pesque_Pague {
                             break;
                         } else {
                             System.out.println("Está aberta ÔuÔ");
-                            comanda.get(pegaCodigoComanda(aAlterar) - 1).controleComanda();
+                            COMANDA.get(pegaCodigoComanda(aAlterar) - 1).controleComanda();
                             break;
                         }
                     case 2:
@@ -71,7 +72,7 @@ public class Pesque_Pague {
                             JOptionPane.showMessageDialog(FRAME, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
                         } else {
                             System.out.println("Aberto");
-                            comanda.get(valorARemover - 1).fechaComanda();
+                            COMANDA.get(valorARemover - 1).fechaComanda();
                         }
 
                         break;
@@ -85,12 +86,12 @@ public class Pesque_Pague {
     }
 
     private static String[] retornaListaDePessoas() {
-        String[] lista = new String[comanda.size()];
-        for (int i = 0; i < comanda.size(); i++) {
-            if (comanda.get(i).getEstadoComanda() == false) {
-                lista[i] = "" + (i + 1) + " - " + comanda.get(i).getNomeMaster() + " (fechada)";
+        String[] lista = new String[COMANDA.size()];
+        for (int i = 0; i < COMANDA.size(); i++) {
+            if (COMANDA.get(i).getEstadoComanda() == false) {
+                lista[i] = "" + (i + 1) + " - " + COMANDA.get(i).getNomeMaster() + " (fechada)";
             } else {
-                lista[i] = "" + (i + 1) + " - " + comanda.get(i).getNomeMaster();
+                lista[i] = "" + (i + 1) + " - " + COMANDA.get(i).getNomeMaster();
             }
         }
         return lista;

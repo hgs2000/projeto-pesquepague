@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class CriadorDeJSON {
 
-    private static Map<String, Map<String, Float>> valor_json = new HashMap<>();
+    private static final Map<String, Map<String, Float>> VALOR_JSON = new HashMap<>();
 
-    public static Map<String, Float> getOpcoes(String tipo) throws Exception {
-        if (valor_json.containsKey(tipo)) {
-            return valor_json.get(tipo);
+    public Map<String, Float> getOpcoes(String tipo) throws Exception {
+        if (VALOR_JSON.containsKey(tipo)) {
+            return VALOR_JSON.get(tipo);
         } else {
             throw new Exception("Erro. Opção indisponível.");
         }
@@ -20,11 +20,10 @@ public class CriadorDeJSON {
      *
      */
     public CriadorDeJSON() {
-
-        valor_json.put("comidas", new HashMap<String, Float>() {
+        VALOR_JSON.put("comidas", new HashMap<String, Float>() {
             {
                 put("Porção de Peixe Frito (500g)", 20.00f);
-                put("Meia Porção de Peixe Frito (250g)", 10.0f);
+                put("Meia Porção de Peixe Frito (250g)", 10.00f);
                 put("Porção de Batata Frita (500g)", 17.00f);
                 put("Meia Porção de Batata Frita", 8.50f);
                 put("Porção de Polenta (500g)", 15.00f);
@@ -48,7 +47,7 @@ public class CriadorDeJSON {
                 put("Paleta Mexicana sem Recheio", 6.00f);
             }
         });
-        valor_json.put("bebidas", new HashMap<String, Float>() {
+        VALOR_JSON.put("bebidas", new HashMap<String, Float>() {
             {
                 put("Cerveja Skol", 6.50f);
                 put("Cerveja Brahma", 6.50f);
@@ -75,7 +74,7 @@ public class CriadorDeJSON {
                 put("Tequila Souza (200ml)", 12.00f);
             }
         });
-        valor_json.put("servicos", new HashMap<String, Float>() {
+        VALOR_JSON.put("servicos", new HashMap<String, Float>() {
             {
                 put("Pedalinho (15min)", 4.00f);
                 put("Pedalinho (1h)", 7.00f);
@@ -83,7 +82,7 @@ public class CriadorDeJSON {
                 put("Camping", 25.00f);
             }
         });
-        valor_json.put("peixes", new HashMap<String, Float>() {
+        VALOR_JSON.put("peixes", new HashMap<String, Float>() {
             {
                 put("Tilápia", 12.00f);
                 put("Traíra", 13.00f);
@@ -93,7 +92,7 @@ public class CriadorDeJSON {
                 put("Cascudo", 13.00f);
             }
         });
-        valor_json.put("setores", new HashMap<String, Float>() {
+        VALOR_JSON.put("setores", new HashMap<String, Float>() {
             {
                 put("Restaurante Peixinho Bom", 1f);
                 put("Venda e limpeza de peixes", 2f);

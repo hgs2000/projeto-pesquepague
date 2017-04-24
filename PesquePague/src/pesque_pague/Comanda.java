@@ -1,12 +1,20 @@
 package pesque_pague;
 
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static pesque_pague.Pesque_Pague.FRAME;
+import static pesque_pague.Pesque_Pague.CDJSON;
 
 public class Comanda {
 
+    private DecimalFormat df = new DecimalFormat("#.00");
     private boolean comandaAberta;
     private final String master_comanda;
+    private final Map<String, Float> LISTA_DE_PRODUTOS = new HashMap<>();
 
     /**
      * Muda o valor de comandaAberta para aberta (true).
@@ -33,12 +41,43 @@ public class Comanda {
             int opc = JOptionPane.showOptionDialog(FRAME, "Escolha o que adicionar:", "Adicionar Produto", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
             //String codSetor = JOptionPane.showInputDialog("Favor escrever seu setor (código identificador)");
             switch (opc) {
-                case 0:
-                    
-                    //Hgs continua daqui ;)
-                    break;
+                case 0: {
+                    try {
+                        Map<String, Float> mp = CDJSON.getOpcoes("comidas");
+                        String[] opcs_comidas = new String[mp.size()];
+                        int cont = 0;
+                        DecimalFormat df = new DecimalFormat("#.00");
+                        for (Map.Entry<String, Float> valores : mp.entrySet()) {
+                            opcs_comidas[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
+                            cont++;
+                        }
+                        String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "rada", "rada", JOptionPane.PLAIN_MESSAGE, null, opcs_comidas, opcs_comidas[0]);
+                        for (Map.Entry<String, Float> valores : mp.entrySet()) {
+                            if (adicionaProduto.contains(valores.getKey())) {
+                                LISTA_DE_PRODUTOS.put(valores.getKey(), valores.getValue());
+                                break;
+                            }
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                //Hgs continua daqui ;)
+                break;
                 case 1:
+                    try {
+                        Map<String, Float> mp = CDJSON.getOpcoes("bebidas");
+                        String[] opcs_comidas = new String[mp.size()];
+                        int cont = 0;
 
+                        for (Map.Entry<String, Float> valores : mp.entrySet()) {
+                            opcs_comidas[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
+                            cont++;
+                        }
+                        String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "rada", "rada", JOptionPane.PLAIN_MESSAGE, null, opcs_comidas, opcs_comidas[0]);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;
                 default:
 
@@ -53,7 +92,13 @@ public class Comanda {
      * Método para "remover" o produto da comanda.
      */
     private void cancelaProduto() {
-
+        String[] lista = new String[LISTA_DE_PRODUTOS.size()];
+        int cont = 0;
+        for (Map.Entry<String, Float> valores : LISTA_DE_PRODUTOS.entrySet()) {
+            lista[cont] = "" + valores.getKey() + " - " + df.format(valores.getValue());
+            cont++;
+        }
+        JOptionPane.showInputDialog(FRAME, "nah", "ffs", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
     }
 
     /**
