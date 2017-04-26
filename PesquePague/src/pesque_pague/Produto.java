@@ -6,11 +6,18 @@ public class Produto {
     private String nome;
     private float preco;
 
+    /**
+     * Retorna o preco final
+     * @return preço final
+     */
     public float retornaPreco() {
-        float valor = retornaPreco();
-        return valor;
+        return preco;
     }
 
+    /**
+     * 
+     * @return codigo do produto
+     */
     public int getCodigo() {
         return codigo;
     }
@@ -22,7 +29,11 @@ class Peixe extends Produto {
     private int codigo;
     private String nome;
     private float preco;
-    private float taxa = 3.00f;
+    private final float taxa;
+
+    Peixe() {
+        this.taxa = 3.00f;
+    }
 
     public float retornaPreco(float peso) {
         return (preco * peso);
