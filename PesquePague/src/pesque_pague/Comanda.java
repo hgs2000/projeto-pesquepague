@@ -104,7 +104,7 @@ public class Comanda {
                         opcs_peixes[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
                         cont++;
                     }
-                    String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "rada", "rada", JOptionPane.PLAIN_MESSAGE, null, opcs_peixes, opcs_peixes[0]);
+                    String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "Escolha", "rada", JOptionPane.PLAIN_MESSAGE, null, opcs_peixes, opcs_peixes[0]);
                     pegaProduto(mp, adicionaProduto);
                 } catch (Exception ex) {
                     Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
@@ -135,16 +135,10 @@ public class Comanda {
         String[] lista = new String[LISTA_DE_PRODUTOS.size()];
         int cont = 0;
         for (Map.Entry<String, Float> valores : LISTA_DE_PRODUTOS.entrySet()) {
-            lista[cont] = "" + valores.getKey() + " - " + df.format(valores.getValue());
+            lista[cont] = "" + valores.getKey() + " -- R$" + df.format(valores.getValue());
             cont++;
         }
-        JOptionPane.showInputDialog(FRAME, "nah", "ffs", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
-    }
-
-    /**
-     * Método para "remover" um serviço da comanda.
-     */
-    private void cancelaServico() {
+        String s = (String) JOptionPane.showInputDialog(FRAME, "Escolha o registro a ser cancelado:", "Cancelar registro", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
 
     }
 
@@ -168,10 +162,11 @@ public class Comanda {
 
     /**
      * Método utilizado para controlar a comanda
+     *
      * @throws Exception
      */
     public void controleComanda() throws Exception {
-        String[] opcs = {"Adiciona Produto", "Adiciona Peixe", "Cancela Produto Registrado", "Adiciona Servico", "Remove Servico"};
+        String[] opcs = {"Adiciona Produto", "Adiciona Peixe", "Adiciona Servico", "Cancela Produto Registrado"};
         int opc = JOptionPane.showOptionDialog(FRAME, "Escolha a opção a ser realizada", "Comanda de " + master_comanda, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcs, opcs[0]);
         switch (opc) {
             case 0:
@@ -182,23 +177,21 @@ public class Comanda {
                 break;
             case 2:
                 try {
-                    cancelaProduto();
-                    break;
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    JOptionPane.showMessageDialog(FRAME, "Erro. Não há produtos registrados.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    break;
-                }
-            case 3:
-                try {
                     adicionaProduto(3);
                     break;
                 } catch (ArrayIndexOutOfBoundsException e) {
                     JOptionPane.showMessageDialog(FRAME, "Erro. Não há serviços registrados.", "Erro", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
-            case 4:
-                cancelaServico();
-                break;
+            case 3:
+                try {
+                    cancelaProduto();
+                    break;
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    JOptionPane.showMessageDialog(FRAME, "Erro. Não há produtos/serviços na comanda de " + getNomeMaster() + ".", "Erro", JOptionPane.ERROR_MESSAGE);
+                    System.out.println();
+                    break;
+                }
             default:
                 throw new Exception("sair");
         }

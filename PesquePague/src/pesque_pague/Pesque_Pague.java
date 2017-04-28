@@ -14,6 +14,7 @@ public class Pesque_Pague {
     public static final CriadorDeJSON CDJSON = new CriadorDeJSON();
 
     private static final ArrayList<Comanda> COMANDA = new ArrayList<>();
+
     final static JFrame FRAME = new JFrame() {
         {
             setTitle("Pesque Pague Peixinho Bom");
@@ -27,88 +28,13 @@ public class Pesque_Pague {
         }
     };
 
-    private static String novaComanda(String string) {
-        String aux = "";
-        do {
-            aux = JOptionPane.showInputDialog(FRAME, string, null, JOptionPane.PLAIN_MESSAGE);
-            if (aux == null) {
-                return novaComanda(string);
-            }
-        } while (aux.isEmpty());
+    private static String novaComanda(String string) throws Exception {
+        String aux;
+        aux = JOptionPane.showInputDialog(FRAME, string, null, JOptionPane.PLAIN_MESSAGE);
+        if (aux == null) {
+            throw new Exception("O nome está vazio. Não iniciar o programa.");
+        }
         return aux;
-    }
-
-    public static void main(String[] args) {
-        //Variável utilizada para verificar se o programa deve continuar a executar.
-        boolean continuar = true;
-        //Contador de número de comandas
-        int cont = 0;
-        do {
-            int menu;
-            String[] opc = {"Adicionar Comanda", "Adicionar Produtos", "Fecha Comanda", "Listar Produtos Na Comanda"};
-            menu = JOptionPane.showOptionDialog(FRAME, new JLabel("Menu", JLabel.CENTER), null, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opc, opc[0]);
-            switch (menu) {
-                //Adiciona comanda 'x'
-                case 0:
-                    COMANDA.add(new Comanda(novaComanda("Informe o nome que nome do responsável da comanda: ")));
-                    break;
-                //Modificar produtos da comanda 'x'
-                case 1:
-                    try {
-                        String[] listaAdicionaProduto = retornaListaDePessoas();
-                        String aAlterar = (String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser utilizada:", JLabel.CENTER), "Remover Comanda", JOptionPane.PLAIN_MESSAGE, null, listaAdicionaProduto, listaAdicionaProduto[0]);
-                        if (aAlterar.contains(" (fechada)")) {
-                            System.out.println("Está fechada ;-;");
-                            JOptionPane.showMessageDialog(FRAME, "Erro: A Lista está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
-                            break;
-                        } else {
-                            do {
-                                System.out.println("Está aberta ÔuÔ");
-                                COMANDA.get(pegaCodigoComanda(aAlterar) - 1).controleComanda();
-                            } while (true);
-                        }
-                    } catch (Exception e) {
-                        if (e.getMessage().equals("sair")) {
-                            System.out.println(e.getMessage());
-                        } else if (e.getClass().equals(ArrayIndexOutOfBoundsException.class)) {
-                            JOptionPane.showMessageDialog(FRAME, "Erro. Não há comandas registradas.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
-                        break;
-                    }
-                //Fecha comanda 'x'
-                case 2:
-                    try {
-                        String[] listaRemocao = retornaListaDePessoas();
-                        int valorARemover = pegaCodigoComanda((String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaRemocao, listaRemocao[0]));
-                        if (listaRemocao[valorARemover - 1].contains(" (fechada)")) {
-                            System.out.println("Fechada");
-                            JOptionPane.showMessageDialog(FRAME, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
-                        } else {
-                            System.out.println("Aberto");
-                            COMANDA.get(valorARemover - 1).fechaComanda();
-                        }
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        JOptionPane.showMessageDialog(FRAME, "Erro. Não há comandas registradas.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-
-                    break;
-                case 3:
-                    String[] listaMostrar = retornaListaDePessoas();
-                    int valorAMostrar = pegaCodigoComanda((String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaMostrar, listaMostrar[0]));
-                    if (listaMostrar[valorAMostrar - 1].contains(" (fechada)")) {
-                        System.out.println("Fechada");
-                        JOptionPane.showMessageDialog(FRAME, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        System.out.println("Aberto");
-                        COMANDA.get(valorAMostrar - 1).mostraProdutos();
-                    }
-                    break;
-                default:
-                    System.out.println("O programa está fechando");
-                    System.exit(0);
-                    continuar = false;
-            }
-        } while (continuar);
     }
 
     private static String[] retornaListaDePessoas() {
@@ -141,4 +67,91 @@ public class Pesque_Pague {
         return Integer.parseInt(nums);
     }
 
+    public static void main(String[] args) {
+        //Variável utilizada para verificar se o programa deve continuar a executar.
+        boolean continuar = true;
+        do {
+            int menu;
+            String[] opc = {"Adicionar Comanda", "Adicionar Produtos", "Fecha Comanda", "Listar Produtos Na Comanda"};
+            menu = JOptionPane.showOptionDialog(FRAME, new JLabel("Menu", JLabel.CENTER), null, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, opc, opc[0]);
+            switch (menu) {
+                //Adiciona comanda 'x'
+                case 0: {
+                    try {
+                        COMANDA.add(new Comanda(novaComanda("Informe o nome que nome do responsável da comanda: ")));
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(FRAME, ex.getMessage(), "Mensagem em branco.", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                break;
+                //Modificar produtos da comanda 'x'
+                case 1:
+                    try {
+                        String[] listaAdicionaProduto = retornaListaDePessoas();
+                        String aAlterar = (String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser utilizada:", JLabel.CENTER), "Remover Comanda", JOptionPane.PLAIN_MESSAGE, null, listaAdicionaProduto, listaAdicionaProduto[0]);
+                        if (aAlterar.contains(" (fechada)")) {
+                            System.out.println("Está fechada ;-;");
+                            JOptionPane.showMessageDialog(FRAME, "Erro: A Lista está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
+                            break;
+                        } else {
+                            do {
+                                System.out.println("Está aberta ÔuÔ");
+                                COMANDA.get(pegaCodigoComanda(aAlterar) - 1).controleComanda();
+                            } while (true);
+                        }
+                    } catch (NullPointerException e) {
+                        break;
+                    } catch (Exception e) {
+                        if (e.getMessage().equals("sair")) {
+                            System.out.println(e.getMessage());
+                        } else if (e.getClass().equals(ArrayIndexOutOfBoundsException.class)) {
+                            JOptionPane.showMessageDialog(FRAME, "Erro. Não há comandas registradas.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    }
+                //Fecha comanda 'x'
+                case 2:
+                    try {
+                        String[] listaRemocao = retornaListaDePessoas();
+                        int valorARemover = pegaCodigoComanda((String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaRemocao, listaRemocao[0]));
+                        if (listaRemocao[valorARemover - 1].contains(" (fechada)")) {
+                            System.out.println("Fechada");
+                            JOptionPane.showMessageDialog(FRAME, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            System.out.println("Aberto");
+                            COMANDA.get(valorARemover - 1).fechaComanda();
+                        }
+                        break;
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        JOptionPane.showMessageDialog(FRAME, "Erro. Não há comandas registradas.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    } catch (NullPointerException e) {
+                        break;
+                    }
+                //Mostra os produtos registrados na comanda 'x'
+                case 3:
+                    try {
+                        String[] listaMostrar = retornaListaDePessoas();
+                        int valorAMostrar = pegaCodigoComanda((String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a exibir seu conteúdo:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaMostrar, listaMostrar[0]));
+                        if (listaMostrar[valorAMostrar - 1].contains(" (fechada)")) {
+                            System.out.println("Fechada");
+                            JOptionPane.showMessageDialog(FRAME, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            System.out.println("Aberto");
+                            COMANDA.get(valorAMostrar - 1).mostraProdutos();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException ex) {
+                        JOptionPane.showMessageDialog(FRAME, "Erro. Não há comandas registradas.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    } catch (NullPointerException e) {
+
+                    }
+                    break;
+                //O programa fecha ao entrar nessa opção.
+                default:
+                    System.out.println("O programa está fechando");
+                    System.exit(0);
+                    continuar = false;
+            }
+        } while (continuar);
+    }
 }
