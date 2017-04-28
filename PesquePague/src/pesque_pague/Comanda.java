@@ -167,7 +167,8 @@ public class Comanda {
     }
 
     /**
-     *
+     * Método utilizado para controlar a comanda
+     * @throws Exception
      */
     public void controleComanda() throws Exception {
         String[] opcs = {"Adiciona Produto", "Adiciona Peixe", "Cancela Produto Registrado", "Adiciona Servico", "Remove Servico"};
