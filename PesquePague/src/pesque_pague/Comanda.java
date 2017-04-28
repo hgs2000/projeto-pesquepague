@@ -76,7 +76,6 @@ public class Comanda {
                         }
                         break;
                     default:
-
                         break;
                 }
                 break;
@@ -120,11 +119,15 @@ public class Comanda {
      * @param produtoAAdicionar: nome do produto a ser adicionado;
      */
     private void pegaProduto(Map<String, Float> mp, String produtoAAdicionar) {
-        for (Map.Entry<String, Float> valores : mp.entrySet()) {
-            if (produtoAAdicionar.contains(valores.getKey())) {
-                LISTA_DE_PRODUTOS.put(valores.getKey(), valores.getValue());
-                break;
+        try {
+            for (Map.Entry<String, Float> valores : mp.entrySet()) {
+                if (produtoAAdicionar.contains(valores.getKey())) {
+                    LISTA_DE_PRODUTOS.put(valores.getKey(), valores.getValue());
+                    break;
+                }
             }
+        } catch (NullPointerException e) {
+            System.out.println("ata");
         }
     }
 
@@ -135,11 +138,21 @@ public class Comanda {
         String[] lista = new String[LISTA_DE_PRODUTOS.size()];
         int cont = 0;
         for (Map.Entry<String, Float> valores : LISTA_DE_PRODUTOS.entrySet()) {
-            lista[cont] = "" + valores.getKey() + " -- R$" + df.format(valores.getValue());
+            lista[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
             cont++;
         }
         String s = (String) JOptionPane.showInputDialog(FRAME, "Escolha o registro a ser cancelado:", "Cancelar registro", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
-
+        if (!s.contains(" (removido)")) {
+            for (Map.Entry<String, Float> valores : LISTA_DE_PRODUTOS.entrySet()) {
+                if (s.contains(valores.getKey())) {
+                    LISTA_DE_PRODUTOS.put(valores.getKey() + " (removido)", valores.getValue());
+                    LISTA_DE_PRODUTOS.remove(valores.getKey());
+                    break;
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(FRAME, "Erro. O produto já foi removido.", "Erro: Produto Removido", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**
