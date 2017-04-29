@@ -11,6 +11,9 @@ import javax.swing.JOptionPane;
 
 public class Pesque_Pague {
 
+    //Relatório do trabalho: O programa ficou quase completo, faltando apenas elementos que não consegui fazer funcionar de uma expressão regular.
+    //Por consequencia, caso o usuário adicione mais de um produto à comanda, vai continuar existindo apenas 1.
+    //ToDo implementção para o próximo trimestre: Consertar o contador de item 'x' por comanda.
     public static final CriadorDeJSON CDJSON = new CriadorDeJSON();
 
     private static final ArrayList<Comanda> COMANDA = new ArrayList<>();
@@ -102,6 +105,7 @@ public class Pesque_Pague {
                     } catch (NullPointerException e) {
                         break;
                     } catch (Exception e) {
+                        e.printStackTrace();
                         if (e.getMessage().equals("sair")) {
                             System.out.println(e.getMessage());
                         } else if (e.getClass().equals(ArrayIndexOutOfBoundsException.class)) {

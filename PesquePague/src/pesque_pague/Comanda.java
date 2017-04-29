@@ -44,71 +44,43 @@ public class Comanda {
                 //String codSetor = JOptionPane.showInputDialog("Favor escrever seu setor (código identificador)");
                 switch (opc) {
                     case 0: {
-                        try {
-                            Map<String, Float> mp = CDJSON.getOpcoes("comidas");
-                            String[] opcs_comidas = new String[mp.size()];
-                            int cont = 0;
-                            for (Map.Entry<String, Float> valores : mp.entrySet()) {
-                                opcs_comidas[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
-                                cont++;
-                            }
-                            String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "rada", "rada", JOptionPane.PLAIN_MESSAGE, null, opcs_comidas, opcs_comidas[0]);
-                            pegaProduto(mp, adicionaProduto);
-                        } catch (Exception ex) {
-                            Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        adicionarProduto2("comidas");
+                        break;
                     }
                     //Hgs continua daqui ;)
-                    break;
                     case 1:
-                        try {
-                            Map<String, Float> mp = CDJSON.getOpcoes("bebidas");
-                            String[] opcs_bebidas = new String[mp.size()];
-                            int cont = 0;
-                            for (Map.Entry<String, Float> valores : mp.entrySet()) {
-                                opcs_bebidas[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
-                                cont++;
-                            }
-                            String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "Escolha a bebida a ser adicionada:", "Bebidas", JOptionPane.PLAIN_MESSAGE, null, opcs_bebidas, opcs_bebidas[0]);
-                            pegaProduto(mp, adicionaProduto);
-                        } catch (Exception ex) {
-                            Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        adicionarProduto2("bebidas");
                         break;
                     default:
                         break;
                 }
                 break;
-            case 2:
-                try {
-                    Map<String, Float> mp = CDJSON.getOpcoes("peixes");
-                    String[] opcs_peixes = new String[mp.size()];
-                    int cont = 0;
-                    for (Map.Entry<String, Float> valores : mp.entrySet()) {
-                        opcs_peixes[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
-                        cont++;
-                    }
-                    String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "rada", "rada", JOptionPane.PLAIN_MESSAGE, null, opcs_peixes, opcs_peixes[0]);
-                    pegaProduto(mp, adicionaProduto);
-                } catch (Exception ex) {
-                    Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            case 2: {
+                adicionarProduto2("peixes");
                 break;
+            }
+            case 3: {
+                adicionarProduto2("servicos");
+                break;
+            }
             default:
-                try {
-                    Map<String, Float> mp = CDJSON.getOpcoes("servicos");
-                    String[] opcs_peixes = new String[mp.size()];
-                    int cont = 0;
-                    for (Map.Entry<String, Float> valores : mp.entrySet()) {
-                        opcs_peixes[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
-                        cont++;
-                    }
-                    String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "Escolha", "rada", JOptionPane.PLAIN_MESSAGE, null, opcs_peixes, opcs_peixes[0]);
-                    pegaProduto(mp, adicionaProduto);
-                } catch (Exception ex) {
-                    Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                break;
+                System.out.println("Informar o desenvolvedor se e como você chegou aqui.");
+        }
+    }
+
+    private void adicionarProduto2(String codigo) {
+        try {
+            Map<String, Float> mp = CDJSON.getOpcoes(codigo);
+            String[] opcoes = new String[mp.size()];
+            int cont = 0;
+            for (Map.Entry<String, Float> valores : mp.entrySet()) {
+                opcoes[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
+                cont++;
+            }
+            String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "Escolha o deve ser adicionado à comanda.", "Adicionar " + codigo, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
+            pegaProduto(mp, adicionaProduto);
+        } catch (Exception ex) {
+            Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -120,6 +92,13 @@ public class Comanda {
      */
     private void pegaProduto(Map<String, Float> mp, String produtoAAdicionar) {
         try {
+            //int quantProduto;
+
+            /*if (!produtoAAdicionar.matches(".([0-9])*.")) {
+            quantProduto = 1;
+            } else {
+            
+            }*/
             for (Map.Entry<String, Float> valores : mp.entrySet()) {
                 if (produtoAAdicionar.contains(valores.getKey())) {
                     LISTA_DE_PRODUTOS.put(valores.getKey(), valores.getValue());
@@ -141,11 +120,12 @@ public class Comanda {
             lista[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
             cont++;
         }
-        String s = (String) JOptionPane.showInputDialog(FRAME, "Escolha o registro a ser cancelado:", "Cancelar registro", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
-        if (!s.contains(" (removido)")) {
+        String produto = (String) JOptionPane.showInputDialog(FRAME, "Escolha o registro a ser cancelado:", "Cancelar registro", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
+        if (!produto.contains(" (removido)")) {
             for (Map.Entry<String, Float> valores : LISTA_DE_PRODUTOS.entrySet()) {
-                if (s.contains(valores.getKey())) {
-                    LISTA_DE_PRODUTOS.put(valores.getKey() + " (removido)", valores.getValue());
+                if (produto.contains(valores.getKey())) {
+                    //int numero = pegaNumeroDeProdutos(produto);
+                    LISTA_DE_PRODUTOS.put(valores.getKey() + " (removido) ( "/* + numero */ + ")", valores.getValue());
                     LISTA_DE_PRODUTOS.remove(valores.getKey());
                     break;
                 }
@@ -208,7 +188,6 @@ public class Comanda {
             default:
                 throw new Exception("sair");
         }
-
     }
 
     public void mostraProdutos() {
@@ -218,7 +197,7 @@ public class Comanda {
             lista[cont] = "" + valores.getKey() + " -- R$" + df.format(valores.getValue());
             cont++;
         }
-        JOptionPane.showInputDialog(FRAME, "nah", "Lista de Produtos Registrados", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
+        JOptionPane.showMessageDialog(FRAME, "Lista dos Produtos registrados", "Lista de Produtos Registrados", JOptionPane.PLAIN_MESSAGE);
     }
 
     public Comanda(String nome_master) {
@@ -226,4 +205,20 @@ public class Comanda {
         this.master_comanda = nome_master;
     }
 
+    /* private int pegaNumeroDeProdutos(String produto) {
+        String codigo = "";
+        try {
+            int cont = 0;
+            for (int i = 1; i < produto.length(); i++) {
+                if (produto.substring(cont, cont + i).matches("([0-9]*)")) {
+                    codigo = produto.substring(cont, cont + i);
+                    break;
+                }
+                cont++;
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("out of bounds. continua o jogo");
+        }
+        return Integer.parseInt(codigo);
+    }*/
 }
