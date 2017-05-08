@@ -105,7 +105,7 @@ public class Pesque_Pague {
                     } catch (NullPointerException e) {
                         break;
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         if (e.getMessage().equals("sair")) {
                             System.out.println(e.getMessage());
                         } else if (e.getClass().equals(ArrayIndexOutOfBoundsException.class)) {

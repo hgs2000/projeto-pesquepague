@@ -1,10 +1,12 @@
 package pesque_pague;
 
 import java.text.DecimalFormat;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import static pesque_pague.Pesque_Pague.FRAME;
 import static pesque_pague.Pesque_Pague.CDJSON;
@@ -14,7 +16,8 @@ public class Comanda {
     private final DecimalFormat df = new DecimalFormat("#.00");
     private boolean comandaAberta;
     private final String master_comanda;
-    private final Map<String, Float> LISTA_DE_PRODUTOS = new HashMap<>();
+    private final List<Produto> LISTA_DE_PRODUTOS;
+    private final int contador = 0;
 
     /**
      * Muda o valor de comandaAberta para aberta (true).
@@ -70,11 +73,11 @@ public class Comanda {
 
     private void adicionarProduto2(String codigo) {
         try {
-            Map<String, Float> mp = CDJSON.getOpcoes(codigo);
+            Map<String, Produto> mp = CDJSON.getOpcoes(codigo);
             String[] opcoes = new String[mp.size()];
             int cont = 0;
-            for (Map.Entry<String, Float> valores : mp.entrySet()) {
-                opcoes[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
+            for (Map.Entry<String, Produto> valores : mp.entrySet()) {
+                opcoes[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue().getPRECO());
                 cont++;
             }
             String adicionaProduto = (String) JOptionPane.showInputDialog(FRAME, "Escolha o deve ser adicionado à comanda.", "Adicionar " + codigo, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
@@ -90,7 +93,7 @@ public class Comanda {
      * @param mp: Mapa de produtos
      * @param produtoAAdicionar: nome do produto a ser adicionado;
      */
-    private void pegaProduto(Map<String, Float> mp, String produtoAAdicionar) {
+    private void pegaProduto(Map<String, Produto> mp, String produtoAAdicionar) {
         try {
             //int quantProduto;
 
@@ -99,9 +102,9 @@ public class Comanda {
             } else {
             
             }*/
-            for (Map.Entry<String, Float> valores : mp.entrySet()) {
+            for (Map.Entry<String, Produto> valores : mp.entrySet()) {
                 if (produtoAAdicionar.contains(valores.getKey())) {
-                    LISTA_DE_PRODUTOS.put(valores.getKey(), valores.getValue());
+                    LISTA_DE_PRODUTOS.add(valores.getValue());
                     break;
                 }
             }
@@ -116,22 +119,15 @@ public class Comanda {
     private void cancelaProduto() {
         String[] lista = new String[LISTA_DE_PRODUTOS.size()];
         int cont = 0;
-        for (Map.Entry<String, Float> valores : LISTA_DE_PRODUTOS.entrySet()) {
-            lista[cont] = "" + (cont + 1) + ". " + valores.getKey() + " -- R$" + df.format(valores.getValue());
+        for (Produto valores : LISTA_DE_PRODUTOS) {
+            lista[cont] = "" + (cont + 1) + ". " + valores.getNOME() + " -- R$" + df.format(valores.getPRECO());
             cont++;
         }
         String produto = (String) JOptionPane.showInputDialog(FRAME, "Escolha o registro a ser cancelado:", "Cancelar registro", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
-        if (!produto.contains(" (removido)")) {
-            for (Map.Entry<String, Float> valores : LISTA_DE_PRODUTOS.entrySet()) {
-                if (produto.contains(valores.getKey())) {
-                    //int numero = pegaNumeroDeProdutos(produto);
-                    LISTA_DE_PRODUTOS.put(valores.getKey() + " (removido) ( "/* + numero */ + ")", valores.getValue());
-                    LISTA_DE_PRODUTOS.remove(valores.getKey());
-                    break;
-                }
+        for (Produto valores : LISTA_DE_PRODUTOS) {
+            if (valores.getNOME().equalsIgnoreCase(pegaNomeProduto())) {
+
             }
-        } else {
-            JOptionPane.showMessageDialog(FRAME, "Erro. O produto já foi removido.", "Erro: Produto Removido", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -197,10 +193,12 @@ public class Comanda {
             lista[cont] = "" + valores.getKey() + " -- R$" + df.format(valores.getValue());
             cont++;
         }
-        JOptionPane.showMessageDialog(FRAME, "Lista dos Produtos registrados", "Lista de Produtos Registrados", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(FRAME, new JList(lista), "Lista de Produtos Registrados", JOptionPane.PLAIN_MESSAGE, null);
+        //"Lista dos Produtos registrados\n" + 
     }
 
     public Comanda(String nome_master) {
+        this.LISTA_DE_PRODUTOS = new ArrayList<>();
         novaComanda();
         this.master_comanda = nome_master;
     }
@@ -221,4 +219,12 @@ public class Comanda {
         }
         return Integer.parseInt(codigo);
     }*/
+    private String pegaNomeProduto(String nomeProduto) {
+        String nome = "";
+
+        
+        
+        
+        return nome;
+    }
 }
