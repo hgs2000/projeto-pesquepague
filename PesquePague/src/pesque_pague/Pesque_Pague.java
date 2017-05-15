@@ -85,10 +85,10 @@ public class Pesque_Pague {
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(FRAME, ex.getMessage(), "Mensagem em branco.", JOptionPane.ERROR_MESSAGE);
                     }
+                    break;
                 }
-                break;
                 //Modificar produtos da comanda 'x'
-                case 1:
+                case 1: {
                     try {
                         String[] listaAdicionaProduto = retornaListaDePessoas();
                         String aAlterar = (String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser utilizada:", JLabel.CENTER), "Remover Comanda", JOptionPane.PLAIN_MESSAGE, null, listaAdicionaProduto, listaAdicionaProduto[0]);
@@ -113,8 +113,9 @@ public class Pesque_Pague {
                         }
                         break;
                     }
+                }
                 //Fecha comanda 'x'
-                case 2:
+                case 2: {
                     try {
                         String[] listaRemocao = retornaListaDePessoas();
                         int valorARemover = pegaCodigoComanda((String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a ser apagada:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaRemocao, listaRemocao[0]));
@@ -132,16 +133,15 @@ public class Pesque_Pague {
                     } catch (NullPointerException e) {
                         break;
                     }
+                }
                 //Mostra os produtos registrados na comanda 'x'
-                case 3:
+                case 3: {
                     try {
                         String[] listaMostrar = retornaListaDePessoas();
                         int valorAMostrar = pegaCodigoComanda((String) JOptionPane.showInputDialog(FRAME, new JLabel("Selecione a comanda a exibir seu conteúdo:", JLabel.CENTER), "Remove Comanda", JOptionPane.PLAIN_MESSAGE, null, listaMostrar, listaMostrar[0]));
-                        if (listaMostrar[valorAMostrar - 1].contains(" (fechada)")) {
-                            System.out.println("Fechada");
-                            JOptionPane.showMessageDialog(FRAME, "Está fechada", "Erro", JOptionPane.WARNING_MESSAGE);
+                        if (COMANDA.get(valorAMostrar - 1).getEmpty()) {
+                            JOptionPane.showMessageDialog(FRAME, "Erro! Não há produtos na comanda.", "Comanda vazia", JOptionPane.ERROR_MESSAGE);
                         } else {
-                            System.out.println("Aberto");
                             COMANDA.get(valorAMostrar - 1).mostraProdutos();
                         }
                     } catch (ArrayIndexOutOfBoundsException ex) {
@@ -150,11 +150,13 @@ public class Pesque_Pague {
 
                     }
                     break;
+                }
                 //O programa fecha ao entrar nessa opção.
-                default:
+                default: {
                     System.out.println("O programa está fechando");
                     System.exit(0);
                     continuar = false;
+                }
             }
         } while (continuar);
     }

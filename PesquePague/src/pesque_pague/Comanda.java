@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JSlider;
 import static pesque_pague.Pesque_Pague.FRAME;
 import static pesque_pague.Pesque_Pague.CDJSON;
 
@@ -125,8 +126,9 @@ public class Comanda {
         }
         String produto = (String) JOptionPane.showInputDialog(FRAME, "Escolha o registro a ser cancelado:", "Cancelar registro", JOptionPane.PLAIN_MESSAGE, null, lista, lista[0]);
         for (Produto valores : LISTA_DE_PRODUTOS) {
-            if (valores.getNOME().equalsIgnoreCase(pegaNomeProduto())) {
-
+            if (valores.getNOME().equalsIgnoreCase(pegaNomeProduto(valores.getNOME()))) {
+                System.out.println("ata");
+                int numARemoverDaComanda = JOptionPane.showConfirmDialog(FRAME, new JSlider(JSlider.HORIZONTAL, 0, valores.getQuantidade_produtos(), 0), "Escolha a quantidade a ser removida do produto.", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             }
         }
     }
@@ -189,12 +191,16 @@ public class Comanda {
     public void mostraProdutos() {
         String[] lista = new String[LISTA_DE_PRODUTOS.size()];
         int cont = 0;
-        for (Map.Entry<String, Float> valores : LISTA_DE_PRODUTOS.entrySet()) {
-            lista[cont] = "" + valores.getKey() + " -- R$" + df.format(valores.getValue());
+        for (Produto valores : LISTA_DE_PRODUTOS) {
+            lista[cont] = "" + valores.getNOME() + " -- R$" + df.format(valores.getPRECO());
             cont++;
         }
         JOptionPane.showMessageDialog(FRAME, new JList(lista), "Lista de Produtos Registrados", JOptionPane.PLAIN_MESSAGE, null);
         //"Lista dos Produtos registrados\n" + 
+    }
+
+    public boolean getEmpty() {
+        return LISTA_DE_PRODUTOS.isEmpty();
     }
 
     public Comanda(String nome_master) {
@@ -203,28 +209,9 @@ public class Comanda {
         this.master_comanda = nome_master;
     }
 
-    /* private int pegaNumeroDeProdutos(String produto) {
-        String codigo = "";
-        try {
-            int cont = 0;
-            for (int i = 1; i < produto.length(); i++) {
-                if (produto.substring(cont, cont + i).matches("([0-9]*)")) {
-                    codigo = produto.substring(cont, cont + i);
-                    break;
-                }
-                cont++;
-            }
-        } catch (StringIndexOutOfBoundsException e) {
-            System.out.println("out of bounds. continua o jogo");
-        }
-        return Integer.parseInt(codigo);
-    }*/
     private String pegaNomeProduto(String nomeProduto) {
         String nome = "";
 
-        
-        
-        
         return nome;
     }
 }
